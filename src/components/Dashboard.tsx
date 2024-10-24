@@ -42,7 +42,7 @@ const pools = [
   },
 ];
 
-export function Dashboard(isDarkMode: boolean | undefined) {
+export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

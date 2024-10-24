@@ -21,6 +21,7 @@ function App() {
             }}
             className="mb-8"
           >
+            <ConnectButton />
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
               className={`p-2 rounded-lg ${
@@ -30,12 +31,11 @@ function App() {
               }`}
             >
               {isDarkMode ? (
-                <Sun className="w-5 h-5" />
+                <Sun className="w-8 h-8" />
               ) : (
-                <Moon className="w-5 h-5" />
+                <Moon className="w-8 h-8" />
               )}
             </button>
-            <ConnectButton />
           </header>
           <Dashboard isDarkMode={isDarkMode} />
         </div>
