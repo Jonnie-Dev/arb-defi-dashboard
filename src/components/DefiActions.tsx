@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ArrowLeftRight, Wallet, Coins, BookOpen } from "lucide-react";
 import { ActionPanel } from "./ActionPanel";
 

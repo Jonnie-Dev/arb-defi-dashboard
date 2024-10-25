@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Layout } from "./components/Layout";
 import { Dashboard } from "./components/Dashboard";
@@ -24,7 +24,7 @@ function App() {
           >
             <div className="flex mr-auto items-center gap-2 ">
               <Activity className="w-8 h-8 text-purple-400" />
-              <span className="text-xl font-bold text-white">ArbiDeFi</span>
+              <span className="text-xl font-bold text-white">ArbiTrack</span>
             </div>
             <ConnectButton />
             <button

@@ -1,4 +1,3 @@
-import React from "react";
 import { Coins } from "lucide-react";
 
 interface TokenBalanceProps {
