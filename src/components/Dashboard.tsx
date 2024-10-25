@@ -8,19 +8,25 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Coins, TrendingUp, DollarSign } from "lucide-react";
+import { Coins, TrendingUp, DollarSign, WifiOff, Wifi } from "lucide-react";
 import { StatCard } from "./StatCard";
 import { DeFiActions } from "./DefiActions";
 import { TokenBalance } from "./TokenBalance";
 
-const mockData = [
-  { name: "Jan", tvl: 4000 },
-  { name: "Feb", tvl: 3000 },
-  { name: "Mar", tvl: 5000 },
-  { name: "Apr", tvl: 2780 },
-  { name: "May", tvl: 1890 },
-  { name: "Jun", tvl: 2390 },
-];
+import { useWebSocket } from "../hooks/useWebSocket";
+
+function formatTVL(value: number): string {
+  if (value >= 1e9) {
+    return `$${(value / 1e9).toFixed(3)}B`;
+  }
+  if (value >= 1e6) {
+    return `$${(value / 1e6).toFixed(3)}M`;
+  }
+  if (value >= 1e3) {
+    return `$${(value / 1e3).toFixed(2)}K`;
+  }
+  return `$${value.toFixed(0)}`;
+}
 
 const pools = [
   {
@@ -44,14 +50,29 @@ const pools = [
 ];
 
 export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
+  const { tvlHistory, tvl, isConnected } = useWebSocket();
   return (
     <div className="space-y-6">
+      <div className="flex items-center justify-end gap-2 text-sm">
+        {isConnected ? (
+          <>
+            <Wifi className="w-4 h-4 text-green-400" />
+            <span className="text-green-400">Live updates enabled</span>
+          </>
+        ) : (
+          <>
+            <WifiOff className="w-4 h-4 text-red-400" />
+            <span className="text-red-400">Connecting to server...</span>
+          </>
+        )}
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
           title="Total Value Locked"
-          value="$4.8M"
+          value={formatTVL(tvl || 4800000)}
           change="+12.5%"
           icon={Coins}
+          isLive={isConnected}
         />
         <StatCard
           title="24h Volume"
@@ -82,7 +103,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
           <h2 className="text-xl font-semibold text-white mb-4">TVL History</h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={mockData}>
+              <LineChart data={tvlHistory}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                 <XAxis dataKey="name" stroke="#9CA3AF" />
                 <YAxis stroke="#9CA3AF" />
@@ -91,7 +112,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
                   type="monotone"
                   dataKey="tvl"
                   stroke="#8B5CF6"
-                  strokeWidth={2}
+                  strokeWidth={1}
                 />
               </LineChart>
             </ResponsiveContainer>

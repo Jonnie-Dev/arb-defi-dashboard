@@ -1,19 +1,34 @@
-import React from 'react';
-import { ArrowUpRight, LucideIcon } from 'lucide-react';
+import React from "react";
+import { ArrowUpRight, LucideIcon } from "lucide-react";
 
 interface StatCardProps {
   title: string;
   value: string;
   change: string;
   icon: LucideIcon;
+  isLive?: Boolean;
 }
 
-export function StatCard({ title, value, change, icon: Icon }: StatCardProps) {
+export function StatCard({
+  title,
+  value,
+  change,
+  icon: Icon,
+  isLive,
+}: StatCardProps) {
   return (
     <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-gray-400">{title}</p>
+          <p className="flex items-center gap-4 text-gray-400">
+            {title}
+            {isLive && (
+              <span className="flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+            )}{" "}
+          </p>
           <p className="text-2xl font-semibold text-white mt-1">{value}</p>
         </div>
         <Icon className="w-8 h-8 text-purple-400" />

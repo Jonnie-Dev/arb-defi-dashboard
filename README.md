@@ -64,7 +64,7 @@ A modern, feature-rich dashboard for managing DeFi investments on Arbitrum. Buil
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/arbitrum-defi-dashboard.git
+git clone https://github.com/Jonnie-Dev/arbitrum-defi-dashboard.git
 ```
 
 2. Install dependencies:
