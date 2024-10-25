@@ -4,7 +4,7 @@ import { Layout } from "./components/Layout";
 import { Dashboard } from "./components/Dashboard";
 // import { WalletConnect } from "./components/WalletConnect";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Activity } from "lucide-react";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -17,10 +17,15 @@ function App() {
             style={{
               display: "flex",
               justifyContent: "flex-end",
-              padding: 12,
+              alignItems: "center",
+              padding: 16,
             }}
-            className="mb-8"
+            className="mb-12"
           >
+            <div className="flex mr-auto items-center gap-2 ">
+              <Activity className="w-8 h-8 text-purple-400" />
+              <span className="text-xl font-bold text-white">ArbiDeFi</span>
+            </div>
             <ConnectButton />
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
