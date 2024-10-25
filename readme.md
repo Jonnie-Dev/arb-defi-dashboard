@@ -11,7 +11,7 @@ A modern, feature-rich dashboard for managing DeFi investments on Arbitrum. Buil
 - Real-time portfolio value tracking
 - Token balance monitoring
 - Performance visualization with customizable time ranges
-- Multi-token support (ETH, ARB, USDC, and more)
+- Multi-token support (ETH, ARB, USDC)
 
 ### Risk Analysis
 
