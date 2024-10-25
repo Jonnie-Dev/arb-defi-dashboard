@@ -11,6 +11,7 @@ import {
 import { Coins, TrendingUp, DollarSign } from "lucide-react";
 import { StatCard } from "./StatCard";
 import { DeFiActions } from "./DefiActions";
+import { TokenBalance } from "./TokenBalance";
 
 const mockData = [
   { name: "Jan", tvl: 4000 },
@@ -64,6 +65,16 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
           change="+15.1%"
           icon={DollarSign}
         />
+      </div>
+
+      {/* Token Balances */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Your Balances</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <TokenBalance symbol="ETH" balance="1.234" usdValue="2,468.00" />
+          <TokenBalance symbol="ARB" balance="100.00" usdValue="150.00" />
+          <TokenBalance symbol="USDC" balance="500.00" usdValue="500.00" />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
