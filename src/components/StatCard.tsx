@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowUpRight, LucideIcon } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, LucideIcon } from "lucide-react";
 
 interface StatCardProps {
   title: string;
@@ -7,12 +7,14 @@ interface StatCardProps {
   change: string;
   icon: LucideIcon;
   isLive?: Boolean;
+  up?: Boolean;
 }
 
 export function StatCard({
   title,
   value,
   change,
+  up,
   icon: Icon,
   isLive,
 }: StatCardProps) {
@@ -33,9 +35,17 @@ export function StatCard({
         </div>
         <Icon className="w-8 h-8 text-purple-400" />
       </div>
-      <div className="flex items-center gap-1 mt-2 text-green-400">
-        <ArrowUpRight className="w-4 h-4" />
-        <span>{change}</span>
+      <div
+        className={`flex items-center gap-1 mt-2 ${
+          up ? " text-green-400 " : " text-red-400 "
+        } `}
+      >
+        {up ? (
+          <ArrowUpRight className="w-4 h-4" />
+        ) : (
+          <ArrowDownRight className="w-4 h-4" />
+        )}
+        <span>{change || "__"}</span>
       </div>
     </div>
   );
