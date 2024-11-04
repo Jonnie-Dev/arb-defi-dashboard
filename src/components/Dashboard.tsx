@@ -102,17 +102,17 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
           <TokenBalance
             symbol="ETH"
             balance="1.234"
-            usdValue={prices.weth.toFixed(2) + "" || "__"}
+            usdValue={prices.weth ? prices.weth.toFixed(2) : "__"}
           />
           <TokenBalance
             symbol="ARB"
             balance="100.00"
-            usdValue={prices.arb?.toFixed(3) + "" || "__"}
+            usdValue={prices.arb ? prices.arb.toFixed(3) : "__"}
           />
           <TokenBalance
             symbol="USDC"
             balance="500.00"
-            usdValue={prices.usdc?.toFixed(2) + "" || "__"}
+            usdValue={prices.usdc ? prices.usdc.toFixed(2) : "__"}
           />
         </div>
       </div>
