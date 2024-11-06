@@ -14,7 +14,11 @@ export function TokenBalance({ symbol, balance, usdValue }: TokenBalanceProps) {
         <h3 className="text-lg font-semibold ">{symbol} </h3>
       </div>
       <p className="text-2xl font-bold">{balance}</p>
-      {usdValue && <p className="text-gray-400 text-sm">${usdValue}</p>}
+      {usdValue && (
+        <p className="text-gray-400 text-sm">
+          ${usdValue} / {symbol}{" "}
+        </p>
+      )}
     </div>
   );
 }
