@@ -1,4 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
+import { useAccount } from "wagmi";
+import { useBalance } from "wagmi";
+
+import { config } from "../wagmi";
 
 function getURL(domain: string, query: string): string {
   const API_ENDPOINT = `https://${domain}.llama.fi/${query}`;
@@ -25,6 +29,9 @@ interface MarketData {
     apy?: number;
     volumeUsd1d?: number;
   }[];
+  balance: {
+    [key: string]: bigint | string;
+  };
 }
 
 type CoinData = {
@@ -39,10 +46,10 @@ type Coins = {
   [key: string]: CoinData;
 };
 
-// const mockData: any = [];
-
 export function useWebSocket() {
   const [isConnected, setIsConnected] = useState(false);
+
+  const account = useAccount({ config });
 
   const [marketData, setMarketData] = useState<MarketData>({
     tvl: 0,
@@ -53,6 +60,26 @@ export function useWebSocket() {
     feeChange: 0,
     prices: {},
     pools: [],
+    balance: {},
+  });
+
+  if (account.status === "connected") {
+    account;
+  }
+
+  const USDC = useBalance({
+    address: account?.address,
+    token: "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+  });
+
+  const ARB = useBalance({
+    address: account?.address,
+    token: "0x912CE59144191C1204E64559FE8253a0e49E6548",
+  });
+
+  const ETH = useBalance({
+    address: account?.address,
+    token: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
   });
 
   const fetchTVL = useCallback(async () => {
@@ -72,11 +99,8 @@ export function useWebSocket() {
         tvlChange: (currentTvl - recentTvl) / recentTvl,
         tvlHistory: data,
       }));
-
-      setIsConnected(true);
     } catch (error) {
       console.error("Failed to fetch TVL:", error);
-      setIsConnected(false);
     }
   }, []);
 
@@ -142,7 +166,6 @@ export function useWebSocket() {
       const response = await fetch(url);
       const data = await response.json();
       const latest_prices = extractTokenPrices(data.coins);
-      console.log(latest_prices);
 
       setMarketData((prevData) => ({
         ...prevData,
@@ -159,7 +182,6 @@ export function useWebSocket() {
       const response = await fetch(url);
       const data = await response.json();
       const pools = data.data;
-      console.log(pools.sort((a: any, b: any) => b.tvlUsd - a.tvlUsd));
       setMarketData((prevData) => ({
         ...prevData,
         pools: pools.sort((a: any, b: any) => b.tvlUsd - a.tvlUsd),
@@ -169,34 +191,67 @@ export function useWebSocket() {
     }
   }, []);
 
-  // -------------------------------------
+  const fetchBalance = useCallback(() => {
+    if (account.status === "connected") {
+      const balance_obj = {
+        usdc: Number(USDC.data?.value).toFixed(2) || "__",
+        arb: Number(ARB.data?.value).toFixed(2) || "__",
+        eth: Number(ETH.data?.value).toFixed(2) || "__",
+      };
 
-  useEffect((): any => {
-    // Initial fetch
-    Promise.all([
-      fetchTVL(),
-      fetchVol(),
-      fetchPools(),
-      fetchFees(),
-      fetchPrices(),
-    ]);
+      setMarketData((prevData) => ({
+        ...prevData,
+        balance: balance_obj,
+      }));
+    } else {
+      const balance_obj = {
+        usdc: "__",
+        arb: "__",
+        eth: "__",
+      };
+      setMarketData((prevData) => ({
+        ...prevData,
+        balance: balance_obj,
+      }));
+    }
+  }, [account.status, USDC.data, ARB.data, ETH.data]);
 
-    // Set up polling
-    const intervalID = setInterval(() => {
-      Promise.all([
+  const fetchAllData = useCallback(async () => {
+    try {
+      // Trigger all fetches and wait for their completion
+      await Promise.all([
         fetchTVL(),
         fetchVol(),
         fetchPools(),
         fetchFees(),
         fetchPrices(),
+        fetchBalance(),
       ]);
+
+      // If all fetches succeed, update the connection status to true
+      setIsConnected(true);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsConnected(false); // Set connection status to false if any fetch fails
+    }
+  }, [fetchTVL, fetchVol, fetchPools, fetchFees, fetchPrices, fetchBalance]);
+
+  // --------------------------------------------------------------------
+
+  useEffect((): any => {
+    // Initial fetch
+    fetchAllData();
+
+    // Set up polling
+    const intervalID = setInterval(() => {
+      fetchAllData();
     }, POLLING_INTERVAL);
 
     // Cleanup
     return () => {
       clearInterval(intervalID);
     };
-  }, [fetchTVL, fetchVol, fetchPools, fetchPrices]);
+  }, [fetchAllData]);
 
   return { ...marketData, isConnected };
 }
