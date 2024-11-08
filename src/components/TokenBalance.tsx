@@ -8,15 +8,15 @@ interface TokenBalanceProps {
 
 export function TokenBalance({ symbol, balance, usdValue }: TokenBalanceProps) {
   return (
-    <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6">
+    <div className="glass-card p-6">
       <div className="flex items-center gap-3 mb-3">
-        <Coins className="w-6 h-6 text-purple-600" />
-        <h3 className="text-lg font-semibold ">{symbol} </h3>
+        <Coins className="w-6 h-6 text-purple-400" />
+        <h3 className="text-lg font-semibold text-foreground">{symbol}</h3>
       </div>
-      <p className="text-2xl font-bold">{balance}</p>
+      <p className="text-2xl font-bold text-foreground">{balance}</p>
       {usdValue && (
-        <p className="text-gray-400 text-sm">
-          ${usdValue} / {symbol}{" "}
+        <p className="text-foreground-secondary text-sm">
+          ${usdValue} / {symbol}
         </p>
       )}
     </div>

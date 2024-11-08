@@ -3,13 +3,27 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: #ffffff;
+    --background-secondary: #f3f4f6;
+    --foreground: #111827;
+    --foreground-secondary: #4b5563;
+  }
+
+  .dark {
+    --background: #111827;
+    --background-secondary: #1f2937;
+    --foreground: #f9fafb;
+    --foreground-secondary: #9ca3af;
+  }
+
   body {
-    @apply bg-black text-gray-100;
+    @apply bg-background text-foreground;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/5 backdrop-blur-xl rounded-xl;
+    @apply bg-white/80 dark:bg-gray-800/10 backdrop-blur-xl rounded-xl border border-white/10 dark:border-gray-700/10;
   }
 }
