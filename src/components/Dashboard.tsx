@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   LineChart,
   Line,
@@ -18,10 +17,10 @@ import { useWebSocket } from "../hooks/useWebSocket";
 function formatVal(value: number | string): string {
   if (typeof value == "number") {
     if (value >= 1e9) {
-      return `$${(value / 1e9).toFixed(3)}B`;
+      return `$${(value / 1e9).toFixed(2)}B`;
     }
     if (value >= 1e6) {
-      return `$${(value / 1e6).toFixed(3)}M`;
+      return `$${(value / 1e6).toFixed(2)}M`;
     }
     if (value >= 1e3) {
       return `$${(value / 1e3).toFixed(2)}K`;
@@ -32,9 +31,9 @@ function formatVal(value: number | string): string {
   }
 }
 
-function formatChange(value: number | undefined): string {
+function formatChange(value: number | undefined): number | string {
   if (typeof value == "number") {
-    return `${value.toFixed(3)}%`;
+    return value.toFixed(3);
   } else {
     return "";
   }
@@ -52,7 +51,9 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
     feeChange,
     prices,
     pools,
+    balance,
   } = useWebSocket();
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-end gap-2 text-sm">
@@ -72,7 +73,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
         <StatCard
           title="Total Value Locked"
           value={formatVal(tvl || "__")}
-          change={formatChange(tvlChange)}
+          change={formatChange(tvlChange) || ""}
           icon={Coins}
           isLive={isConnected}
           up={typeof tvlChange == "number" && tvlChange >= 0}
@@ -80,7 +81,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
         <StatCard
           title="24h Volume"
           value={formatVal(volume24h || "__")}
-          change={formatChange(volumeChange)}
+          change={formatChange(volumeChange) || ""}
           icon={TrendingUp}
           isLive={isConnected}
           up={typeof volumeChange == "number" && volumeChange >= 0}
@@ -88,7 +89,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
         <StatCard
           title="Fees (24hrs)"
           value={formatVal(fee || "__")}
-          change={formatChange(feeChange)}
+          change={formatChange(feeChange) || ""}
           icon={DollarSign}
           isLive={isConnected}
           up={typeof feeChange == "number" && feeChange >= 0}
@@ -101,17 +102,17 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <TokenBalance
             symbol="ETH"
-            balance="1.234"
+            balance={String(balance.eth)}
             usdValue={prices.weth ? prices.weth.toFixed(2) : "__"}
           />
           <TokenBalance
             symbol="ARB"
-            balance="100.00"
+            balance={String(balance.arb)}
             usdValue={prices.arb ? prices.arb.toFixed(3) : "__"}
           />
           <TokenBalance
             symbol="USDC"
-            balance="500.00"
+            balance={String(balance.usdc)}
             usdValue={prices.usdc ? prices.usdc.toFixed(2) : "__"}
           />
         </div>
