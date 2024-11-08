@@ -4,7 +4,7 @@ import { ArrowDownRight, ArrowUpRight, LucideIcon } from "lucide-react";
 interface StatCardProps {
   title: string;
   value: string;
-  change: string;
+  change: number | string;
   icon: LucideIcon;
   isLive?: Boolean;
   up?: Boolean;
@@ -45,7 +45,7 @@ export function StatCard({
         ) : (
           <ArrowDownRight className="w-4 h-4" />
         )}
-        <span>{change || "__"}</span>
+        <span>{Math.abs(+change) + "%" || "__"}</span>
       </div>
     </div>
   );
