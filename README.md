@@ -4,6 +4,8 @@ A modern DeFi dashboard for tracking and managing investments on Arbitrum. Built
 
 ![ArbiTrack Dashboard](https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&q=80&w=2000&h=600)
 
+[ArbiTrack Demo Video](https://github.com/user-attachments/assets/e5e079f2-33aa-4d26-9e54-034f41c0ec0d)
+
 ## Overview
 
 ArbiTrack helps you:
