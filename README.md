@@ -102,14 +102,14 @@ npm run dev
    - Stake tokens
    - Access educational resources
 
-## 🔧 Configuration
+<!-- ## 🔧 Configuration
 
 The dashboard can be configured through environment variables:
 
 ```env
 VITE_ARBITRUM_RPC_URL=your_rpc_url
 VITE_CHAIN_ID=42161
-```
+``` -->
 
 ## 📝 License
 
