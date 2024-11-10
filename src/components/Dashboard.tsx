@@ -73,7 +73,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
         <StatCard
           title="Total Value Locked"
           value={formatVal(tvl || "__")}
-          change={formatChange(tvlChange) || ""}
+          change={formatChange(tvlChange) || "__"}
           icon={Coins}
           isLive={isConnected}
           up={typeof tvlChange == "number" && tvlChange >= 0}
@@ -81,7 +81,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
         <StatCard
           title="24h Volume"
           value={formatVal(volume24h || "__")}
-          change={formatChange(volumeChange) || ""}
+          change={formatChange(volumeChange) || "__"}
           icon={TrendingUp}
           isLive={isConnected}
           up={typeof volumeChange == "number" && volumeChange >= 0}
@@ -89,7 +89,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
         <StatCard
           title="Fees (24hrs)"
           value={formatVal(fee || "__")}
-          change={formatChange(feeChange) || ""}
+          change={formatChange(feeChange) || "__"}
           icon={DollarSign}
           isLive={isConnected}
           up={typeof feeChange == "number" && feeChange >= 0}
@@ -98,7 +98,13 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
 
       {/* Token Balances */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">Your Balances</h2>
+        <h2
+          className={`${
+            !isDarkMode ? "text-white / 70" : "text-white"
+          }  text-2xl font-bold mb-4`}
+        >
+          Your Balances
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <TokenBalance
             symbol="ETH"
@@ -124,9 +130,9 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={tvlHistory}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                <CartesianGrid strokeDasharray="1 1" stroke="#374151" />
                 <XAxis dataKey="name" stroke="#9CA3AF" />
-                <YAxis stroke="#9CA3AF" />
+                <YAxis hide stroke="#9CA3AF" />
                 <Tooltip />
                 <Line
                   type="monotone"
@@ -139,10 +145,10 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
           </div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6">
+        <div className="bg-white/5 lg:h-[400px] lg:overflow-x-hidden overflow-y-scroll backdrop-blur-xl rounded-xl p-6">
           <h2 className="text-xl font-semibold text-white mb-4">Top Pools</h2>
           <div className="space-y-4">
-            {pools.slice(0, 5).map((pool) => (
+            {pools.slice(0, 10).map((pool) => (
               <div
                 key={pool.project}
                 className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
@@ -158,10 +164,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
                 </div>
                 <div className="text-right">
                   <p className="text-green-400 font-medium">
-                    {formatChange(pool.apy)} APY
-                  </p>
-                  <p className="text-gray-400 text-sm">
-                    24h: {pool.volumeUsd1d}
+                    APY: {formatChange(pool.apy)}%
                   </p>
                 </div>
               </div>
