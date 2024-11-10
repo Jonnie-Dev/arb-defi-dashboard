@@ -11,33 +11,8 @@ import { Coins, TrendingUp, DollarSign, WifiOff, Wifi } from "lucide-react";
 import { StatCard } from "./StatCard";
 import { DeFiActions } from "./DefiActions";
 import { TokenBalance } from "./TokenBalance";
-
 import { useWebSocket } from "../hooks/useWebSocket";
-
-function formatVal(value: number | string): string {
-  if (typeof value == "number") {
-    if (value >= 1e9) {
-      return `$${(value / 1e9).toFixed(2)}B`;
-    }
-    if (value >= 1e6) {
-      return `$${(value / 1e6).toFixed(2)}M`;
-    }
-    if (value >= 1e3) {
-      return `$${(value / 1e3).toFixed(2)}K`;
-    }
-    return `$${value.toFixed(0)}`;
-  } else {
-    return value + "";
-  }
-}
-
-function formatChange(value: number | undefined): number | string {
-  if (typeof value == "number") {
-    return value.toFixed(3);
-  } else {
-    return "";
-  }
-}
+import { formatVal, formatChange, formatYAxisTick } from "../utils/formatters";
 
 export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
   const {
@@ -55,7 +30,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
   } = useWebSocket();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-8">
       <div className="flex items-center justify-end gap-2 text-sm">
         {isConnected ? (
           <>
@@ -69,6 +44,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
           </>
         )}
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
           title="Total Value Locked"
@@ -96,15 +72,8 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
         />
       </div>
 
-      {/* Token Balances */}
       <div className="mb-8">
-        <h2
-          className={`${
-            !isDarkMode ? "text-white / 70" : "text-white"
-          }  text-2xl font-bold mb-4`}
-        >
-          Your Balances
-        </h2>
+        <h2 className="text-2xl font-bold mb-4 text-white/90">Your Balances</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <TokenBalance
             symbol="ETH"
@@ -125,29 +94,45 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white/5 backdrop-blur-xl rounded-xl p-6">
+        <div className="glass-card p-6">
           <h2 className="text-xl font-semibold text-white mb-4">TVL History</h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={tvlHistory}>
                 <CartesianGrid strokeDasharray="1 1" stroke="#374151" />
-                <XAxis dataKey="name" stroke="#9CA3AF" />
-                <YAxis hide stroke="#9CA3AF" />
-                <Tooltip />
+                <XAxis dataKey="name" stroke="#9CA3AF" tickMargin={10} />
+                <YAxis
+                  stroke="#9CA3AF"
+                  tickFormatter={formatYAxisTick}
+                  tickMargin={8}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#1F2937",
+                    border: "none",
+                    borderRadius: "8px",
+                    color: "#fff",
+                  }}
+                  formatter={(value: any) => [
+                    `$${formatYAxisTick(value)}`,
+                    "TVL",
+                  ]}
+                />
                 <Line
                   type="monotone"
                   dataKey="tvl"
                   stroke="#8B5CF6"
-                  strokeWidth={1}
+                  strokeWidth={2}
+                  dot={false}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-white/5 lg:h-[400px] lg:overflow-x-hidden overflow-y-scroll backdrop-blur-xl rounded-xl p-6">
+        <div className="glass-card p-6">
           <h2 className="text-xl font-semibold text-white mb-4">Top Pools</h2>
-          <div className="space-y-4">
+          <div className="space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar">
             {pools.slice(0, 10).map((pool) => (
               <div
                 key={pool.project}
@@ -156,7 +141,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
                 <div>
                   <h3 className="text-white font-medium">
                     {pool.project}
-                    <span>({pool.symbol})</span>
+                    <span className="ml-1 opacity-75">({pool.symbol})</span>
                   </h3>
                   <p className="text-gray-400 text-sm">
                     TVL: {formatVal(pool.tvlUsd)}
