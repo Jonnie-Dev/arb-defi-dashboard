@@ -18,7 +18,12 @@ export function DeFiActions({ isDarkMode }: DeFiActionsProps) {
   };
 
   const actions = [
-    { id: "swap", icon: ArrowLeftRight, label: "Swap Tokens", available: true },
+    {
+      id: "swap",
+      icon: ArrowLeftRight,
+      label: "Swap Tokens",
+      available: false,
+    },
     { id: "bridge", icon: Wallet, label: "Bridge Assets", available: false },
     { id: "stake", icon: Coins, label: "Stake Tokens", available: false },
     { id: "learn", icon: BookOpen, label: "Learn DeFi", available: true },

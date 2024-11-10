@@ -180,7 +180,7 @@ export function ActionPanel({ type, onClose, isDarkMode }: ActionPanelProps) {
             </button>
           </div>
 
-          {type === "swap" ? (
+          {type === "_swap" ? (
             <div className="space-y-4">
               <div>
                 <label
@@ -247,10 +247,17 @@ export function ActionPanel({ type, onClose, isDarkMode }: ActionPanelProps) {
             >
               <h3 className="font-medium">DeFi Learning Resources</h3>
               <ul className="space-y-2">
-                <li>• Introduction to DeFi</li>
-                <li>• Understanding Liquidity Pools</li>
-                <li>• Yield Farming Strategies</li>
-                <li>• Risk Management in DeFi</li>
+                <li>
+                  <a href="http://bit.ly/4flV82z">• Introduction to DeFi</a>
+                </li>
+                <li>
+                  <a href="https://bit.ly/3Z0WIRO">
+                    • Understanding Liquidity Pools
+                  </a>
+                </li>
+                <li>
+                  <a href="https://bit.ly/3Cnu04L">• Risk Management in DeFi</a>
+                </li>
               </ul>
             </div>
           ) : (
