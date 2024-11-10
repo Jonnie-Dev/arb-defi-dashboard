@@ -181,10 +181,11 @@ export function useWebSocket() {
       const url = getURL("yields", "pools");
       const response = await fetch(url);
       const data = await response.json();
-      const pools = data.data;
+      const pools = data.data.sort((a: any, b: any) => b.apy - a.apy);
+
       setMarketData((prevData) => ({
         ...prevData,
-        pools: pools.sort((a: any, b: any) => b.tvlUsd - a.tvlUsd),
+        pools: pools,
       }));
     } catch (error) {
       console.error("Error fetching pools:", error);
