@@ -248,15 +248,19 @@ export function ActionPanel({ type, onClose, isDarkMode }: ActionPanelProps) {
               <h3 className="font-medium">DeFi Learning Resources</h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="http://bit.ly/4flV82z">• Introduction to DeFi</a>
+                  <a target="_blank" href="http://bit.ly/4flV82z">
+                    • Introduction to DeFi
+                  </a>
                 </li>
                 <li>
-                  <a href="https://bit.ly/3Z0WIRO">
+                  <a target="_blank" href="https://bit.ly/3Z0WIRO">
                     • Understanding Liquidity Pools
                   </a>
                 </li>
                 <li>
-                  <a href="https://bit.ly/3Cnu04L">• Risk Management in DeFi</a>
+                  <a target="_blank" href="https://bit.ly/3Cnu04L">
+                    • Risk Management in DeFi
+                  </a>
                 </li>
               </ul>
             </div>
