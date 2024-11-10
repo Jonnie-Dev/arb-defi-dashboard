@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Layout } from "./components/Layout";
 import { Dashboard } from "./components/Dashboard";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { WalletConnect } from "./components/WalletConnect";
 import { Sun, Moon, Activity } from "lucide-react";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
               <span className="text-xl font-bold text-white">ArbiTrack</span>
             </div>
             <div className="flex items-center gap-4">
-              <ConnectButton />
+              <WalletConnect />
               <button
                 onClick={() => setIsDarkMode(!isDarkMode)}
                 className="p-2 rounded-lg text-gray-300 hover:text-white transition-colors"
