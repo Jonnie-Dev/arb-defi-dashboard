@@ -12,7 +12,12 @@ import { StatCard } from "./StatCard";
 import { DeFiActions } from "./DefiActions";
 import { TokenBalance } from "./TokenBalance";
 import { useWebSocket } from "../hooks/useWebSocket";
-import { formatVal, formatChange, formatYAxisTick } from "../utils/formatters";
+import {
+  formatVal,
+  formatChange,
+  formatYAxisTick,
+  formatPoolSymbol,
+} from "../utils/formatters";
 
 export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
   const {
@@ -132,7 +137,7 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
 
         <div className="glass-card p-6">
           <h2 className="text-xl font-semibold text-white mb-4">Top Pools</h2>
-          <div className="space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar">
+          <div className="space-y-4 max-h-[300px] overflow-y-scroll overflow-x-hidden  custom-scrollbar">
             {pools.slice(0, 10).map((pool) => (
               <div
                 key={pool.project}
@@ -141,7 +146,11 @@ export function Dashboard({ isDarkMode }: { isDarkMode: boolean }) {
                 <div>
                   <h3 className="text-white font-medium">
                     {pool.project}
-                    <span className="ml-1 opacity-75">({pool.symbol})</span>
+                    {pool.symbol && (
+                      <span className="ml-1 opacity-75">
+                        ({formatPoolSymbol(pool.symbol)})
+                      </span>
+                    )}
                   </h3>
                   <p className="text-gray-400 text-sm">
                     TVL: {formatVal(pool.tvlUsd)}

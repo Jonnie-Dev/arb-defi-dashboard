@@ -19,7 +19,7 @@ function App() {
     <Layout>
       <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 dark:from-indigo-950 dark:via-purple-950 dark:to-pink-950">
         <div className="container mx-auto px-4 py-8">
-          <header className="flex items-center justify-between p-4 mb-12">
+          <header className="flex flex-col sm:flex-row items-center gap-4 sm:justify-between p-4 mb-8 sm:mb-12">
             <div className="flex items-center gap-2">
               <Activity className="w-8 h-8 text-purple-400" />
               <span className="text-xl font-bold text-white">ArbiTrack</span>
@@ -29,11 +29,14 @@ function App() {
               <button
                 onClick={() => setIsDarkMode(!isDarkMode)}
                 className="p-2 rounded-lg text-gray-300 hover:text-white transition-colors"
+                aria-label={
+                  isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+                }
               >
                 {isDarkMode ? (
-                  <Sun className="w-8 h-8" />
+                  <Sun className="w-6 h-6" />
                 ) : (
-                  <Moon className="w-8 h-8" />
+                  <Moon className="w-6 h-6" />
                 )}
               </button>
             </div>
