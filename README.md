@@ -54,9 +54,6 @@ npm run dev
 - Recharts for data visualization
 - Wagmi for Web3 interactions
 
-## License
-
-MIT
 
 ---
 
